@@ -75,6 +75,7 @@
             // trackBar1
             // 
             this.trackBar1.Location = new System.Drawing.Point(38, 60);
+            this.trackBar1.Maximum = 78;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(443, 45);
             this.trackBar1.TabIndex = 2;
