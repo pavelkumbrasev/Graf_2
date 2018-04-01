@@ -18,6 +18,9 @@ namespace TomogrammVisualizer
         private int currentLayer;
         private int frameCount;
         DateTime nextFPSUpdate = DateTime.Now.AddSeconds(1);
+        public static int minBarValue;
+        public static int widthBarValue;
+        bool nReload = false;
         public Form1()
         {
             InitializeComponent();
@@ -44,16 +47,27 @@ namespace TomogrammVisualizer
                 view.SetupView(glControl1.Width, glControl1.Height);
                 loaded = true;
                 glControl1.Invalidate();
+                minBarValue = trackBar2.Value;
+                widthBarValue = trackBar3.Value;
+
 
             }
+
         }
 
         private void glControl1_Paint(object sender, EventArgs e)
         {
             if (loaded)
             {
-                
-                view.DrawQuads(currentLayer);
+                if (nReload)
+                {
+                    view.GenerateTextureImage(currentLayer);
+                    view.Load2DTexture();
+                    nReload = false;
+                }
+                if (radioButton1.Checked) view.DrawQuadStrip(currentLayer);
+                if (radioButton2.Checked) view.DrawTexture();
+
                 glControl1.SwapBuffers();
             }
         }
@@ -64,6 +78,7 @@ namespace TomogrammVisualizer
             if (currentLayer == trackBar1.Maximum)
                 currentLayer--;
             glControl1_Paint(sender, e);
+            nReload = true;
         }
         private void Application_Idle(object sender, EventArgs e)
         {
@@ -76,6 +91,20 @@ namespace TomogrammVisualizer
         private void Form1_Load(object sender, EventArgs e)
         {
             Application.Idle += Application_Idle;
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            minBarValue = trackBar2.Value;
+            glControl1_Paint(sender, e);
+            nReload = true;
+        }
+
+        private void trackBar3_Scroll(object sender, EventArgs e)
+        {
+            widthBarValue = trackBar3.Value;
+            glControl1_Paint(sender, e);
+            nReload = true;
         }
     }
 }
