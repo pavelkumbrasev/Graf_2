@@ -48,11 +48,21 @@ namespace TomogrammVisualizer
 
         public void SetupView(int width, int height)
         {
+          
             GL.ShadeModel(ShadingModel.Smooth);
-            GL.MatrixMode(MatrixMode.Projection);
-            GL.LoadIdentity();
+
+            Vector3 cameraPosition = new Vector3(0, 0.45f, 0.8f);
+            Matrix4 lookAt = Matrix4.LookAt(cameraPosition, Vector3.UnitZ, Vector3.UnitY);
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadMatrix(ref lookAt);
+           //
             GL.Ortho(0, Bin.X, 0, Bin.Y, -1, 1);
-            GL.Viewport(0, 0, width, height);
+            GL.Viewport(0,0, width, height);
+
+
+
+
+
         }
 
         public int clamp(int value, int min = 0, int max = 255)

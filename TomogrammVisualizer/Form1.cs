@@ -49,6 +49,7 @@ namespace TomogrammVisualizer
                 glControl1.Invalidate();
                 minBarValue = trackBar2.Value;
                 widthBarValue = trackBar3.Value;
+                
 
 
             }
